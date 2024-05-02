@@ -1,0 +1,12 @@
+langchain 
+qdrant_client 
+openai 
+tiktoken
+PyPdf2
+FastAPI
+Uvicorn
+python-multipart
+pydantic
+python-dotenv
+llama-index 
+llama-index-vector-stores-qdrant
