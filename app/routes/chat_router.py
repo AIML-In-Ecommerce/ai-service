@@ -8,11 +8,10 @@ router = APIRouter(
     responses={404: {"description": "Not found"}},
 )
 
-@router.post("/rag")
+@router.post("/agent")
 async def upload_files(data: dict):
     prompt = data["prompt"]
-    # conversation = rag_service.ragResponse(prompt)
 
     conversation = agent_service.agentResponse(prompt)
-    # return JSONResponse(content={"message": "Reviews processed successfully", "data": conversation})
-    return JSONResponse(content={"message": "Reviews processed successfully"})
+    return JSONResponse(content={"message": "Reviews processed successfully", "data": conversation})
+    # return JSONResponse(content={"message": "Reviews processed successfully"})

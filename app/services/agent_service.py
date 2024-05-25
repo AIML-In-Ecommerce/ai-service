@@ -31,8 +31,6 @@ def agentResponse(query_str):
     response = agent.query(prompt)
     print("Agent Response: ", response)
     # DO SOMETHING
-
-    
-    return response
+    return str(response)
     
     

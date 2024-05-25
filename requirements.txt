@@ -10,3 +10,4 @@ pydantic
 python-dotenv
 llama-index 
 llama-index-vector-stores-qdrant
+replicate
