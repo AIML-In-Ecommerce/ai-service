@@ -2,6 +2,7 @@ from fastapi import APIRouter, HTTPException
 from fastapi.responses import JSONResponse
 from typing import List
 from app.services import genai_service
+from app.models.TryOnModel import TryOnModel
 import json
 
 
@@ -29,8 +30,8 @@ async def generateProductImage(data:dict):
     return JSONResponse(content={"message": "Generate product image successfully", "data": response})
 
 @router.post("/virtual-try-on")
-async def generateTryOnImage(data:dict):
-    modelImg = json.dumps(data["modelImgUrl"])
-    garmentImg =  json.dumps(data["garmentImgUrl"])
-    response = genai_service.generateTryOnImage(modelImage=modelImg, garmentImage=garmentImg)
+async def generateTryOnImage(data:TryOnModel):
+    modelImg = data.modelImgUrl
+    garmentImg =  data.garmentImgUrl
+    response = genai_service.generateTryOnImage(modelImg, garmentImg)
     return JSONResponse(content={"message": "Generate try on image successfully", "data": response})

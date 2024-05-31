@@ -510,17 +510,25 @@ def generateProductImage(prompt: str, context: str, garmentImage: str) -> str:
         "genaiProductImage": output,
     }
 
-def generateTryOnImage(modelImage: str, garmentImage: str):
+def generateTryOnImage(modelImage:str, garmentImage:str):
     output = replicate.run(
         "viktorfa/oot_diffusion:9f8fa4956970dde99689af7488157a30aa152e23953526a605df1d77598343d7",
         input={
             "seed": 0,
             "steps": 20,
-            "model_image": "https://raw.githubusercontent.com/viktorfa/oot_diffusion/main/oot_diffusion/assets/model_1.png",
-            "garment_image": "https://replicate.delivery/pbxt/KTgyzr0WNtcgwN82xEEcc3zoydD8ooXPzMHC18fKZSWu9W5I/blue_jacket.webp",
+            "model_image": modelImage,
+            "garment_image": garmentImage,
             "guidance_scale": 2
         }
     )
+    input={
+            "seed": 0,
+            "steps": 20,
+            "model_image": modelImage,
+            "garment_image": garmentImage,
+            "guidance_scale": 2
+        }
+    print("Input: ", input)
 
     return {
         "modelImage": modelImage,
