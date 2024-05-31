@@ -32,9 +32,7 @@ def generateDesciption(shortDescription):
     return
 
 
-def generateProductImage(prompt: str, context: str, garmentImage: str) -> str:
-    garmentImageUrl  = garmentImage
-    
+def generateProductImage(prompt: str, context: str, garmentImage: str):
     comfyuiApiWorkflow = {
       "3": {
         "inputs": {
@@ -387,7 +385,6 @@ def generateProductImage(prompt: str, context: str, garmentImage: str) -> str:
       },
       "41": {
         "inputs": {
-          # "image": "https://res.cloudinary.com/dw51lzffc/image/upload/v1715341903/Screenshot_2024-05-10_184853_brlnzi.png",
           "image": garmentImage, 
           "upload": "image"
         },
