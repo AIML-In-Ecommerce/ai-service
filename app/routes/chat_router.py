@@ -1,6 +1,7 @@
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 from app.services import rag_service, agent_service
+from app.models.ChatModel import ChatModel
 
 router = APIRouter(
     prefix="/chat",
@@ -9,9 +10,9 @@ router = APIRouter(
 )
 
 @router.post("/agent")
-async def upload_files(data: dict):
-    prompt = data["prompt"]
+async def agent(data: ChatModel):
+    history_conservation = data.history_conservation
+    prompt = data.prompt
 
-    conversation = agent_service.agentResponse(prompt)
+    conversation = agent_service.agentResponse(history_conservation, prompt)
     return JSONResponse(content={"message": "Reviews processed successfully", "data": conversation})
-    # return JSONResponse(content={"message": "Reviews processed successfully"})

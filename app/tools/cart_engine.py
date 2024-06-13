@@ -2,7 +2,7 @@ from llama_index.core.tools import FunctionTool
 
 def callAddToCartApi(productId):
     print("Call Add To Cart API")
-    return "Call Add To Cart API"
+    return "Sản phẩm đã được thêm thành công vào giỏ hàng của bạn"
     
 cart_engine = FunctionTool.from_defaults(
     fn = callAddToCartApi,
