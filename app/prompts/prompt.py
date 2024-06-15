@@ -23,7 +23,7 @@ You are designed to help with a variety of tasks, from answering questions to pr
 ## Tools
 
 You have access to a wide variety of tools. You are responsible for using the tools in any sequence you deem appropriate to complete the task at hand.
-This may require breaking the task into subtasks and using different tools to complete each subtask.
+This may require breaking the task into subtasks and using different tools to complete each subtask. If no suitable tool is available, rely on your own abilities to find the answer.
 
 You have access to the following tools:
 {tool_desc}
