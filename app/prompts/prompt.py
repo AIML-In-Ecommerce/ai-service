@@ -72,3 +72,14 @@ The answer always just a JSON string following structure:
 Below is the current conversation consisting of interleaving human and assistant messages.
 
 """
+
+data_visualization_tool_prompt_tmpl_str = """
+Data Visualization Generation
+Answer the user question by creating vega-lite specification in JSON string.
+First, explain all steps to fulfill the user question.
+Second, here are some requirements:
+1. The data property must be excluded,
+2. You should exclude filters should be applied to the data, 3. You should consider to aggregate the field if it is quantitative, 4. You should choose mark type appropriate to user question, the chart has a mark type of bar, line, area, scatter or arc,
+5. The available fields in the dataset and their types are: {head part}.
+Finally, generate the vega-lite JSON specification between <JSON> and </JSON> tag. User question delimited by. <{user_prompt}>
+"""

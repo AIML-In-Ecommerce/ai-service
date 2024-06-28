@@ -25,7 +25,7 @@ async def uploadFiles(data: dict):
 
 @router.post("/generate-product-description")
 async def generateProductDescription(data: dict):
-    if "promp" not in data:
+    if "prompt" not in data:
         raise HTTPException(status_code=400, detail="Promps attribute not found in request body")
     
     promp = json.dumps(data["prompt"])
