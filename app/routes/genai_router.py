@@ -4,6 +4,7 @@ from typing import List
 from app.services import genai_service
 from app.models.TryOnModel import TryOnModel
 from app.models.ProductUrlModel import ProductUrlModel
+from app.models.ReviewListModel import ReviewListModel
 import json
 
 
@@ -21,6 +22,15 @@ async def uploadFiles(data: dict):
     reviews = json.dumps(data["reviews"])
     response = genai_service.getReviewSynthesis(reviews)
     return JSONResponse(content={"message": "Reviews processed successfully", "data": response})
+
+@router.post("/generate-product-description")
+async def generateProductDescription(data: dict):
+    if "promp" not in data:
+        raise HTTPException(status_code=400, detail="Promps attribute not found in request body")
+    
+    promp = json.dumps(data["prompt"])
+    response = genai_service.generateProductDesciption(promp)
+    return JSONResponse(content={"message": "Generate product desciption successfully", "data": response})
 
 @router.post("/generate-product-image")
 async def generateProductImage(data:ProductUrlModel):

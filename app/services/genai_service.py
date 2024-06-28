@@ -8,10 +8,13 @@ load_dotenv()
 
 OPENAI_KEY = os.getenv('OPENAI_API_KEY')
 
-REVIEW_SYSTHESIS_SYSTEM_MSG = """Bạn là một chuyên gia phân tích đánh giá, bạn sẽ được cung cấp một danh sách các đánh giá của một sản phẩm, hãy phân tích các đánh giá đó. Hãy đảm bảo kết quả trả về luôn luôn là một json với cấu trúc {"positiveCount" : đây là số lượng đánh giá tích cực , "negativeCount": đây là số lượng đánh giá tiêu cực, "normalCount" : đây là số lượng đánh giá không thể xác định được là tiêu cực hay tích cực, "positiveSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tích cực, độ dài đoạn tóm tắt khoảng 50 từ. Ví dụ: Hầu hết người mua đánh giá tích cực về chất lượng sản phẩm, bao gồm vải đẹp, chất jean dày dặn, co giãn tốt và form chuẩn. Một số khách hàng nhận xét sản phẩm đáng mua, đẹp, sang trọng và bền chắc. Đa số khách hàng hài lòng với dịch vụ giao hàng nhanh, đúng hẹn và đóng gói cẩn thận. Một số khách hàng đánh giá tích cực về sự nhiệt tình và trách nhiệm của shop.", "negativeSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tiêu cực,độ dài đoạn tóm tắt khoảng 30 từ. Ví dụ: Tuy nhiên, có một số nhận xét tiêu cực về khuy nút bị lỏng và màu không thích, có một nhận xét tiêu cực về việc nhầm hàng."}.
+REVIEW_SYSTHESIS_SYSTEM_MSG = """Bạn là một chuyên gia phân tích đánh giá, bạn sẽ được cung cấp một danh sách các đánh giá của một sản phẩm, hãy phân tích các đánh giá đó. Hãy đảm bảo kết quả trả về luôn luôn là một json với cấu trúc {"positiveCount" : đây là số lượng đánh giá tích cực , "negativeCount": đây là số lượng đánh giá tiêu cực, "trashCount" : đây là số lượng đánh giá không thể xác định được là tiêu cực hay tích cực, "positiveSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tích cực, độ dài đoạn tóm tắt khoảng 50 từ. Ví dụ: Hầu hết người mua đánh giá tích cực về chất lượng sản phẩm, bao gồm vải đẹp, chất jean dày dặn, co giãn tốt và form chuẩn. Một số khách hàng nhận xét sản phẩm đáng mua, đẹp, sang trọng và bền chắc. Đa số khách hàng hài lòng với dịch vụ giao hàng nhanh, đúng hẹn và đóng gói cẩn thận. Một số khách hàng đánh giá tích cực về sự nhiệt tình và trách nhiệm của shop.", "negativeSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tiêu cực,độ dài đoạn tóm tắt khoảng 30 từ. Ví dụ: Tuy nhiên, có một số nhận xét tiêu cực về khuy nút bị lỏng và màu không thích, có một nhận xét tiêu cực về việc nhầm hàng."}.
 """
 
-GENERATE_DESCRIPTION_SYSTEM_MSG = """"""
+GENERATE_DESCRIPTION_SYSTEM_MSG = """Bạn là một trợ lý ảo trên nền tảng thương mại. Tôi sẽ cung cấp cho bạn một đoạn mô tả sơ lược về sản phẩm của tôi ở dạng html, bao gồm các thẻ chứa thông tin sơ bộ có thể có thẻ hình ảnh hoặc các thẻ khác. Bạn nãy giúp tôi viết lại một đoạn mô tả sản phẩm dựa trên đoạn mã html tôi đã cung cấp với từ ngữ phù hợp. Hãy đảm bảo rằng kết quả trả về luôn luôn chỉ là đoạn mã html và ngôn ngữ của phần mô tả dựa theo phần mô tả tôi cung cấp (ưu tiên tiếng việt) và phần mô tả không vượt quá 100 từ. 
+Dưới đây là đoạn mã html mô tả sơ lược về sản phẩm:
+{prompt}
+"""
 
 def getReviewSynthesis(query):
     client = OpenAI(
@@ -21,7 +24,7 @@ def getReviewSynthesis(query):
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-0125",
         messages=[
-            {"role": "system", "content": REVIEW_SYSTHESIS_SYSTEM_MSG},
+            {"role": "system", "content": GENERATE_DESCRIPTION_SYSTEM_MSG},
             {"role": "user", "content": query}
         ],
     )
@@ -42,8 +45,23 @@ def index(query):
     message = response.choices[0].message.content
     return message
 
-def generateDesciption(shortDescription):
-    return
+def generateProductDesciption(shortDescription):
+    client = OpenAI(
+        api_key = OPENAI_KEY,
+    )
+    print("Query", shortDescription)
+
+    SYSTEM_MSG = GENERATE_DESCRIPTION_SYSTEM_MSG.format(prompt=shortDescription)
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo-0125",
+        messages=[
+            {"role": "system", "content": SYSTEM_MSG},
+            {"role": "user", "content": shortDescription}
+        ],
+    )
+    message = response.choices[0].message.content
+    return message
 
 
 def generateProductImage(prompt: str, context: str, garmentImage: str):
