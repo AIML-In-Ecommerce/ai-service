@@ -73,23 +73,6 @@ Below is the current conversation consisting of interleaving human and assistant
 
 """
 
-data_visualization_tool_prompt_tmpl_str = """\
-Data Visualization Generation
-Answer the user question by creating vega-lite specification in JSON string.
-First, explain all steps to fulfill the user question.
-Second, here are some requirements:
-1. The data property must be excluded,
-2. You should exclude filters should be applied to the data, 3. You should consider to aggregate the field if it is quantitative, 4. You should choose mark type appropriate to user question, the chart has a mark type of bar, line, area, scatter or arc,
-5. The available fields in the dataset and their types are: 
-----------------------------------------------------
-{head_part}
-----------------------------------------------------
-Finally, generate the vega-lite JSON specification between <JSON> and </JSON> tag. 
-Below is the data that you will visualize by chart:
-----------------------------------------------------
-{user_prompt}
-----------------------------------------------------\
-"""
 
 review_synthesis_prompt_tmpl_str = """Bạn là một chuyên gia phân tích đánh giá, bạn sẽ được cung cấp một danh sách các đánh giá của một sản phẩm, hãy phân tích các đánh giá đó. Hãy đảm bảo kết quả trả về luôn luôn là một json với cấu trúc {"positiveCount" : đây là số lượng đánh giá tích cực , "negativeCount": đây là số lượng đánh giá tiêu cực, "trashCount" : đây là số lượng đánh giá không thể xác định được là tiêu cực hay tích cực, "positiveSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tích cực, độ dài đoạn tóm tắt khoảng 50 từ. Ví dụ: Hầu hết người mua đánh giá tích cực về chất lượng sản phẩm, bao gồm vải đẹp, chất jean dày dặn, co giãn tốt và form chuẩn. Một số khách hàng nhận xét sản phẩm đáng mua, đẹp, sang trọng và bền chắc. Đa số khách hàng hài lòng với dịch vụ giao hàng nhanh, đúng hẹn và đóng gói cẩn thận. Một số khách hàng đánh giá tích cực về sự nhiệt tình và trách nhiệm của shop.", "negativeSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tiêu cực,độ dài đoạn tóm tắt khoảng 30 từ. Ví dụ: Tuy nhiên, có một số nhận xét tiêu cực về khuy nút bị lỏng và màu không thích, có một nhận xét tiêu cực về việc nhầm hàng."}.
 """
@@ -116,4 +99,71 @@ generate_product_description_prompt_tmpl_str = """Bạn là một trợ lý ảo
 {prompt}
 ----------------------------------------
 Hãy đảm bảo rằng kết quả trả về luôn luôn chỉ là đoạn mã html và ngôn ngữ của phần mô tả dựa theo phần mô tả tôi cung cấp (ưu tiên tiếng việt) và phần mô tả không vượt quá 500 từ. 
+"""
+
+data_visualization_tool_prompt_tmpl_str = """\
+You will receive a dataset in JSON format. Your task is to analyze this dataset and determine the best chart type for visualization. After selecting the chart type, always return a JSON object with the following structure:
+{
+  "type": "line", // That is selected chart type like "line" or "bar" or "pie"  
+  "data": {
+    // Data object in the format suitable for chartjs and react-chartjs-2
+  }
+}
+
+## For example, an example dataset for you to use:
+
+```
+{
+  "data": [
+    {{"month": "January", "value": 65}},
+    {{"month": "February", "value": 59}},
+    {{"month": "March", "value": 80}},
+    {{"month": "April", "value": 81}},
+    {{"month": "May": "value": 56}},
+    {{"month": "June": "value": 55}},
+    {{"month": "July": "value": 40}}
+  ]
+}
+
+If you determine that a line chart is appropriate, the data object should look like this:
+{
+  "labels": ["January", "February", "March", "April", "May", "June", "July"],
+  "datasets": [
+    {  "label": "My First Dataset",
+      "data": [65, 59, 80, 81, 56, 55, 40],
+      "fill": false,
+      "backgroundColor": "rgb(75, 192, 192)",
+      "borderColor": "rgba(75, 192, 192, 0.2)"
+    }
+  ]
+}
+```
+
+## Your requirements are:
+
+```
+Analyze the dataset to determine the best chart type for visualization.
+Create a data object in the appropriate format for chartjs and react-chartjs-2.
+Return a JSON object with the selected type of chart and the corresponding data object.
+```
+
+## Answer Rules:
+The answer always just a JSON string following structure:
+
+```
+{
+  "type": "line", // That is selected chart type like "line" or "bar" or "pie"  
+  "data": {
+    // Data object in the format suitable for chartjs and react-chartjs-2
+  }
+}
+```
+
+Besides that, no need to write any additional information.
+
+## Below is the data provided by the user:
+```
+{data}
+```
+\
 """
