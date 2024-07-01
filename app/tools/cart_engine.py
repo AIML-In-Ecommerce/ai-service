@@ -6,6 +6,6 @@ def callAddToCartApi(productId):
     
 cart_engine = FunctionTool.from_defaults(
     fn = callAddToCartApi,
-    name  = "cart_saver",
+    name  = "cart_adding",
     description="this tool can add a product to cart, the parameter include userId is id of user and productId is id of product what would be added",
 )

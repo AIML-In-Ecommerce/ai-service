@@ -1,4 +1,4 @@
-from app.tools import cart_engine, rag_engine, product_engine
+from app.tools import cart_engine, rag_engine, product_engine, revenue_engine
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
@@ -12,6 +12,7 @@ promptTemplate = PromptTemplate(qa_prompt_tmpl_str)
 tools =[
     cart_engine.cart_engine,
     product_engine.product_engine,
+    revenue_engine.revenue_engine,
     QueryEngineTool(
         query_engine=rag_engine.rag_engine,
         metadata=ToolMetadata(
@@ -22,7 +23,7 @@ tools =[
 ]
 
 react_system_prompt = PromptTemplate(react_system_header_str)
-llm = OpenAI(model="gpt-4")
+llm = OpenAI(model="gpt-3.5-turbo-0125")
 
 agent = ReActAgent.from_tools(tools, llm=llm, verbose=True, context=context_str)
 agent.update_prompts({"agent_worker:system_prompt": react_system_prompt})
