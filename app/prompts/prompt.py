@@ -67,7 +67,7 @@ Answer: [your answer here (In the same language as the user's question and follo
 
 ## Answer Rules:
 The answer always just a JSON string following structure:
-{{"type": The default value is "text". If have used any tool, this is the name of tool that you used ,"data": This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}}
+{{"type": // The default value is "text". If have used any tool, this is the name of tool that you used ,"data": // This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}}
 
 ## Current Conversation
 Below is the current conversation consisting of interleaving human and assistant messages.
@@ -115,7 +115,7 @@ You will receive a dataset in JSON format. Your task is to analyze this dataset 
 
 ```
 {{
-  "data": [
+  "revenue_data": [
     {{"month": "January", "value": 65}},
     {{"month": "February", "value": 59}},
     {{"month": "March", "value": 80}},
