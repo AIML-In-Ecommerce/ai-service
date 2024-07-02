@@ -105,10 +105,11 @@ Hãy đảm bảo rằng kết quả trả về luôn luôn chỉ là đoạn m�
 data_visualization_tool_prompt_tmpl_str = """\
 You will receive a dataset in JSON format. Your task is to analyze this dataset and determine the best chart type for visualization. After selecting the chart type, always return a JSON object with the following structure:
 {{
-  "type": "line", // That is selected chart type like "line" or "bar" or "pie"  
+  "type": // That is selected chart type like "line" or "bar" or "pie"  
   "data": {{
     // Data object in the format suitable for chartjs and react-chartjs-2
   }}
+  "title": // This is the title of chart
 }}
 
 ## For example, an example dataset for you to use:
