@@ -23,13 +23,22 @@ async def uploadFiles(data: dict):
     response = genai_service.getReviewSynthesis(reviews)
     return JSONResponse(content={"message": "Reviews processed successfully", "data": response})
 
+@router.post("/gen-chart")
+async def genChart(data: dict):
+    if "data" not in data:
+        raise HTTPException(status_code=400, detail="Data not found in request body")
+    
+    data = json.dumps(data["data"])
+    response = genai_service.generateChart(data)
+    return JSONResponse(content={"message": "Draw chart successfully", "data": response})
+
 @router.post("/generate-product-description")
 async def generateProductDescription(data: dict):
     if "prompt" not in data:
-        raise HTTPException(status_code=400, detail="Promps attribute not found in request body")
+        raise HTTPException(status_code=400, detail="Prompt attribute not found in request body")
     
-    promp = json.dumps(data["prompt"])
-    response = genai_service.generateProductDesciption(promp)
+    prompt = json.dumps(data["prompt"])
+    response = genai_service.generateProductDesciption(prompt)
     return JSONResponse(content={"message": "Generate product desciption successfully", "data": response})
 
 @router.post("/generate-product-image")

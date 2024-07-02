@@ -3,7 +3,7 @@ import httpx
 import requests
 
 
-def getRevenue(shopId: str):
+def getRevenue(shopId: str, year: int):
     # DO SOMETHING
     revenues = [
     {"year": "2024", "month": "01", "totalRevenue": 17500000},

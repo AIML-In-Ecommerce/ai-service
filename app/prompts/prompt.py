@@ -11,7 +11,8 @@ qa_prompt_tmpl_str = """\
     ---------------------
     {history_conservation}
     ---------------------
-    Given the context information, history conservation and not prior knowledge, answer the query.
+    Given the context information, history conservation and not prior knowledge, answer the query. The answer always just a JSON string following structure:
+{{"type": The default value is "text". If have used any tool, this is the name of tool that you used ,"data": This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}} 
     Query: {query_str}
     Answer: \
 """
@@ -56,17 +57,17 @@ You should keep repeating the above format till you have enough information to a
 
 ```
 Thought: I can answer without using any more tools. I'll use the user's language to answer
-Answer: [your answer here (In the same language as the user's question)]
+Answer: [your answer here (In the same language as the user's question and follow answer rule below)]
 ```
 
 ```
 Thought: I cannot answer the question with the provided tools, I'll try to answer to the best of my ability.
-Answer: [your answer here (In the same language as the user's question)]
+Answer: [your answer here (In the same language as the user's question and follow answer rule below)]
 ```
 
 ## Answer Rules:
 The answer always just a JSON string following structure:
-{{"type": This is the name of tool that you used (if using any tool),"data":  This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}}
+{{"type": The default value is "text". If have used any tool, this is the name of tool that you used ,"data": This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}}
 
 ## Current Conversation
 Below is the current conversation consisting of interleaving human and assistant messages.
@@ -103,17 +104,17 @@ Hãy đảm bảo rằng kết quả trả về luôn luôn chỉ là đoạn m�
 
 data_visualization_tool_prompt_tmpl_str = """\
 You will receive a dataset in JSON format. Your task is to analyze this dataset and determine the best chart type for visualization. After selecting the chart type, always return a JSON object with the following structure:
-{
+{{
   "type": "line", // That is selected chart type like "line" or "bar" or "pie"  
-  "data": {
+  "data": {{
     // Data object in the format suitable for chartjs and react-chartjs-2
-  }
-}
+  }}
+}}
 
 ## For example, an example dataset for you to use:
 
 ```
-{
+{{
   "data": [
     {{"month": "January", "value": 65}},
     {{"month": "February", "value": 59}},
@@ -123,20 +124,20 @@ You will receive a dataset in JSON format. Your task is to analyze this dataset 
     {{"month": "June": "value": 55}},
     {{"month": "July": "value": 40}}
   ]
-}
+}}
 
 If you determine that a line chart is appropriate, the data object should look like this:
-{
+{{
   "labels": ["January", "February", "March", "April", "May", "June", "July"],
   "datasets": [
-    {  "label": "My First Dataset",
+    {{  "label": "My First Dataset",
       "data": [65, 59, 80, 81, 56, 55, 40],
       "fill": false,
       "backgroundColor": "rgb(75, 192, 192)",
       "borderColor": "rgba(75, 192, 192, 0.2)"
-    }
+    }}
   ]
-}
+}}
 ```
 
 ## Your requirements are:
@@ -149,21 +150,17 @@ Return a JSON object with the selected type of chart and the corresponding data 
 
 ## Answer Rules:
 The answer always just a JSON string following structure:
-
-```
-{
+{{
   "type": "line", // That is selected chart type like "line" or "bar" or "pie"  
-  "data": {
+  "data": {{
     // Data object in the format suitable for chartjs and react-chartjs-2
-  }
-}
-```
+  }}
+}}
 
 Besides that, no need to write any additional information.
 
 ## Below is the data provided by the user:
 ```
 {data}
-```
-\
+```\
 """
