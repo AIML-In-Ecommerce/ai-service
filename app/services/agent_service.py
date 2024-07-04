@@ -24,7 +24,7 @@ tools =[
 ]
 
 react_system_prompt = PromptTemplate(react_system_header_str)
-llm = OpenAI(model="gpt-4")
+llm = OpenAI(model="gpt-3.5-turbo-0125")
 
 agent = ReActAgent.from_tools(tools, llm=llm, verbose=True, context=context_str)
 agent.update_prompts({"agent_worker:system_prompt": react_system_prompt})

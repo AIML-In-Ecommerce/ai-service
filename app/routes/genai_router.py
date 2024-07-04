@@ -20,6 +20,7 @@ async def uploadFiles(data: dict):
         raise HTTPException(status_code=400, detail="Reviews not found in request body")
     
     reviews = json.dumps(data["reviews"])
+    print("Reviews: ", reviews)
     response = genai_service.getReviewSynthesis(reviews)
     return JSONResponse(content={"message": "Reviews processed successfully", "data": response})
 

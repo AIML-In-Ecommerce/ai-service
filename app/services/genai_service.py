@@ -9,16 +9,17 @@ load_dotenv()
 
 OPENAI_KEY = os.getenv('OPENAI_API_KEY')
 
-def getReviewSynthesis(query):
+def getReviewSynthesis(prompt):
     client = OpenAI(
         api_key = OPENAI_KEY,
     )
-    print("Query", query)
+    print("Prompt", prompt)
+    # query = str(prompt)
     response = client.chat.completions.create(
         model="gpt-3.5-turbo-0125",
         messages=[
             {"role": "system", "content": review_synthesis_prompt_tmpl_str},
-            {"role": "user", "content": query}
+            {"role": "user", "content": prompt}
         ],
     )
     message = response.choices[0].message.content
