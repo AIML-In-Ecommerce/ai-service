@@ -12,3 +12,4 @@ llama-index
 llama-index-vector-stores-qdrant
 replicate
 httpx
+langchain-community

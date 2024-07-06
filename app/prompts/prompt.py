@@ -1,6 +1,6 @@
 from llama_index.core import PromptTemplate
 
-context_str ="""You are an AI virtual assistant, designed to enhance the user experience on Vagoda, an online marketplace specializing in fashion products. Your role is to answer user questions in a clear and understandable manner, using friendly language, and always responding in Vietnamese. Ensure that your responses are helpful, engaging, and provide accurate information to assist users with their queries related to fashion products and the AwesomeZone platform."""
+context_str ="""You are an AI virtual assistant, designed to enhance the user experience on Vagoda, an online marketplace specializing in fashion products. Your role is to answer user questions in a clear and understandable manner, using friendly language, and always responding in Vietnamese. Ensure that your responses are helpful, engaging, and provide accurate information to assist users with their queries related to fashion products and the Vagoda platform."""
 
 qa_prompt_tmpl_str = """\
     Context information is below.
