@@ -1,8 +1,17 @@
 from llama_index.core.tools import FunctionTool
+import requests
+
 
 def callAddToCartApi(userId, productId):
-    print("Call Add To Cart API")
-    return "Sản phẩm đã được thêm thành công vào giỏ hàng của bạn"
+    base_url = 'https://apis.fashionstyle.io.vn'
+    url = f'{base_url}?userId={userId}&productId={productId}'
+    try:
+        response = requests.get(url)
+        response.raise_for_status()
+        data  = response.json()
+        return data['data']
+    except requests.exceptions.RequestException as e:
+        return {"error": str(e)}
     
 cart_engine = FunctionTool.from_defaults(
     fn = callAddToCartApi,
