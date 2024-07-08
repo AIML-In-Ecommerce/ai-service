@@ -1,4 +1,4 @@
-from app.tools import cart_engine, rag_engine, product_engine, revenue_engine, data_visualization_engine
+from app.tools import cart_engine, rag_engine, product_engine, revenue_engine, data_visualization_engine, review_engine, review_synthesis_engine
 from llama_index.core.tools import QueryEngineTool, ToolMetadata
 from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
@@ -12,6 +12,8 @@ promptTemplate = PromptTemplate(qa_prompt_tmpl_str)
 tools =[
     cart_engine.cart_engine,
     product_engine.product_engine,
+    review_engine.review_engine,
+    review_synthesis_engine.review_synthesis_engine,
     revenue_engine.revenue_engine,
     data_visualization_engine.chart_engine,
     rag_engine.rag_engine
@@ -42,6 +44,6 @@ def agentResponse(history_conservation, query_str):
         query_str=query_str
     )
     response = agent.query(prompt)
-    return str(response)
+    return response
     
     

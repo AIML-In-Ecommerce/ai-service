@@ -11,8 +11,12 @@ qa_prompt_tmpl_str = """\
     ---------------------
     {history_conservation}
     ---------------------
-    Given the context information, history conservation and not prior knowledge, answer the query. The answer always just a JSON string following structure:
-{{"type": The default value is "text". If have used any tool, this is the name of tool that you used ,"data": This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}} 
+    Given the context information, history conservation and not prior knowledge, answer the query. The answer always just a JSON string following structure ((always includes all 3 fields of information type, data and message):
+    {{
+      "type": // The default value is "text". If have used any tool, this is the name of tool that you used,
+      "data": // The default value is "". If have used any tool, this is observation when used corresponding tool (if have observation),
+      "message": // This is your answer in markdown type.
+    }}
     Query: {query_str}
     Answer: \
 """
@@ -66,8 +70,12 @@ Answer: [your answer here (In the same language as the user's question and follo
 ```
 
 ## Answer Rules:
-The answer always just a JSON following structure:
-{{"type": // The default value is "text". If have used any tool, this is the name of tool that you used ,"data": // This is observation data when used corresponding tool (if have observation data),"message": This is your answer in markdown type.}}
+The answer always just a JSON following structure (always includes all 3 fields of information type, data and message):
+{{
+  "type": // The default value is "text". If have used any tool, this is the name of tool that you used,
+  "data": // The default value is "". If have used any tool, this is observation when used corresponding tool (if have observation),
+  "message": // This is your answer in markdown type.
+}}
 
 ## Current Conversation
 Below is the current conversation consisting of interleaving human and assistant messages.

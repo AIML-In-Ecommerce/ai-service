@@ -15,4 +15,4 @@ async def agent(data: ChatModel):
     prompt = data.prompt
 
     conversation = agent_service.agentResponse(history_conservation, prompt)
-    return JSONResponse(content={"message": "Reviews processed successfully", "data": conversation})
+    return JSONResponse(content={"message": "Reviews processed successfully", "data": str(conversation)})

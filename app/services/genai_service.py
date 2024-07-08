@@ -19,7 +19,7 @@ def getReviewSynthesis(prompt):
         model="gpt-3.5-turbo-0125",
         messages=[
             {"role": "system", "content": review_synthesis_prompt_tmpl_str},
-            {"role": "user", "content": prompt}
+            {"role": "user", "content": str(prompt)}
         ],
     )
     message = response.choices[0].message.content
