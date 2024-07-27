@@ -13,6 +13,7 @@ router = APIRouter(
 async def agent(data: ChatModel):
     history_conservation = data.history_conservation
     prompt = data.prompt
+    print("Prompt: ", prompt)
 
     conversation = agent_service.agentResponse(history_conservation, prompt)
     return JSONResponse(content={"message": "Reviews processed successfully", "data": str(conversation)})
