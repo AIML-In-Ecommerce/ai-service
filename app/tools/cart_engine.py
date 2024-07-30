@@ -4,12 +4,13 @@ import requests
 
 def callAddToCartApi(userId, productId):
     base_url = 'https://apis.fashionstyle.io.vn'
-    url = f'{base_url}?userId={userId}&productId={productId}'
+    url = f'{base_url}/cart/external/add_by_description?userId={userId}&productId={productId}'
     try:
         response = requests.get(url)
         response.raise_for_status()
         data  = response.json()
-        return data['data']
+
+        return data['message']
     except requests.exceptions.RequestException as e:
         return {"error": str(e)}
     

@@ -3,7 +3,7 @@ import httpx
 import requests
 
 
-def getRevenue(shopId: str, year: int):
+def getRevenue(shopId: str, year: int, month: int):
     # DO SOMETHING
     revenues = [
     {"year": "2024", "month": "01", "totalRevenue": 17500000},
@@ -24,5 +24,5 @@ def getRevenue(shopId: str, year: int):
 revenue_engine = FunctionTool.from_defaults(
     fn = getRevenue,
     name  = "revenue_getter",
-    description="This tool retrieves the revenue for a specific shop in a given year. The parameters include shopId that is a string representing the shop's identifier and year that is an integer indicating the year for which the user wants to retrieve revenue data.",
+    description="This tool retrieves the revenue for a specific shop in a given year. The parameters include shopId that is a string representing the shop's identifier, year as default is current year that is an integer indicating the year for which the user wants to retrieve revenue data and  month as default is 1 that is an integer indicating the month for which the user wants to retrieve revenue data.",
 )

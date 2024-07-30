@@ -4,7 +4,7 @@ import requests
 
 
 def callProductListApi(request_param_str: str):
-    base_url = 'http://14.225.218.109:3006/products/search'
+    base_url = 'https://apis.fashionstyle.io.vn/products/search'
     url = f'{base_url}{request_param_str}'
     print("URL: ", url)
     try:

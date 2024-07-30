@@ -4,7 +4,7 @@ import requests
 
 
 def getReviewListApi(productId: str):
-    base_url = 'http://14.225.218.109:3007/ai/productReviews'
+    base_url = 'https://apis.fashionstyle.io.vn/ai/productReviews'
     url = f'{base_url}/{productId}'
     try:
         response = requests.get(url)
