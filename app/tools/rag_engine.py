@@ -68,7 +68,7 @@ def ragResponse(query):
 
 rag_engine = FunctionTool.from_defaults(
     fn = ragResponse,
-    name  = "rag_tool",
-    description="this gives detailed information of development team, parameter query is full question of user",
+    name  = "retrieval_augmented_generation_tool",
+    description="This is retrieval augmented generation tool to provide all information related to your platform, and always use the retrieval_augmented_generation_tool if you cannot answer with the provided tools. Make sure alway response with Vietnamese",
     return_direct=True
 )

@@ -82,6 +82,66 @@ Below is the current conversation consisting of interleaving human and assistant
 
 """
 
+seller_react_system_header_str = """\
+
+You are designed to help with a variety of tasks, from answering questions to providing summaries to other types of analyses.
+
+## Tools
+
+You have access to a wide variety of tools. You are responsible for using the tools in any sequence you deem appropriate to complete the task at hand.
+This may require breaking the task into subtasks and using different tools to complete each subtask. If no suitable tool is available, rely on your own abilities to find the answer.
+
+You have access to the following tools:
+{tool_desc}
+
+Here is some context to help you answer the question and plan:
+{context}
+
+
+## Output Format
+
+Please answer in the same language as the question and use the following format:
+
+```
+Thought: The current language of the user is: (user's language). I need to use a tool to help me answer the question.
+Action: tool name (one of {tool_names}) if using a tool.
+Action Input: the input to the tool, in a JSON format representing the kwargs (e.g. {{"input": "hello world", "num_beams": 5}})
+```
+
+Please ALWAYS start with a Thought.
+
+Please use a valid JSON format for the Action Input. Do NOT do this {{'input': 'hello world', 'num_beams': 5}}.
+
+If this format is used, the user will respond in the following format:
+
+```
+Observation: tool response
+```
+
+You should keep repeating the above format till you have enough information to answer the question without using any more tools. If you cannot answer the question with the provided tools, use the retrieval_augmented_generation_tool and finally try to answer on your own. At that point, you MUST respond in the one of the following two formats:
+
+```
+Thought: I can answer without using any more tools. I'll use the user's language to answer.
+Answer: [your answer here (In the same language as the user's question and follow answer rule below)].
+```
+
+```
+Thought: I cannot answer the question with the provided tools, I'll try to answer to the best of my ability.
+Answer: [your answer here (In the same language as the user's question and follow answer rule below)].
+```
+
+## Answer Rules:
+The answer always just a JSON following structure (always includes all 3 fields of information type, data and message):
+{{
+  "type": // The default value is "text". If have used any tool, this is the name of tool that you used,
+  "data": // The default value is "". If have used any tool, this is observation when used corresponding tool (if have observation),
+  "message": // This is your answer in markdown type.
+}}
+
+## Current Conversation
+Below is the current conversation consisting of interleaving human and assistant messages.
+
+"""
 
 review_synthesis_prompt_tmpl_str = """Bạn là một chuyên gia phân tích đánh giá, bạn sẽ được cung cấp một danh sách các đánh giá của một sản phẩm, hãy phân tích các đánh giá đó. Hãy đảm bảo kết quả trả về luôn luôn là một json với cấu trúc {"positiveCount" : đây là số lượng đánh giá tích cực , "negativeCount": đây là số lượng đánh giá tiêu cực, "trashCount" : đây là số lượng đánh giá không thể xác định được là tiêu cực hay tích cực, "positiveSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tích cực, độ dài đoạn tóm tắt khoảng 50 từ. Ví dụ: Hầu hết người mua đánh giá tích cực về chất lượng sản phẩm, bao gồm vải đẹp, chất jean dày dặn, co giãn tốt và form chuẩn. Một số khách hàng nhận xét sản phẩm đáng mua, đẹp, sang trọng và bền chắc. Đa số khách hàng hài lòng với dịch vụ giao hàng nhanh, đúng hẹn và đóng gói cẩn thận. Một số khách hàng đánh giá tích cực về sự nhiệt tình và trách nhiệm của shop.", "negativeSumary" : "Đây là một đoạn tóm tắt mô tả ngắn về các đánh giá tiêu cực,độ dài đoạn tóm tắt khoảng 30 từ. Ví dụ: Tuy nhiên, có một số nhận xét tiêu cực về khuy nút bị lỏng và màu không thích, có một nhận xét tiêu cực về việc nhầm hàng."}.
 """
